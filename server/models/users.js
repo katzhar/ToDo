@@ -14,3 +14,4 @@ usersSchema.plugin(passportLocalMongoose)
 
 let Users = mongoose.model('Users', usersSchema);
 module.exports = Users;
+

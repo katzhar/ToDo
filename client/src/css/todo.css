@@ -1,0 +1,228 @@
+body{
+    background-color: #f5f5f5;
+  }
+  
+  header {
+    width: 1139px;
+    height: 314px;
+    opacity: 0.2;
+    font-family: SBSansText;
+    font-size: 250px;
+    margin-left: 70px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: var(--black);
+  }
+  
+  p {
+    font-size: 33px;
+    opacity: 0.7;
+    font-family: SBSansText;
+    margin-left: 72px;
+    font-weight: bold;
+  }
+  
+  table {
+    width: 100%;
+  }
+  .addTodo {
+    margin: 0;
+    border: none;
+    width: 70%;
+    height: 42px;
+    padding: 15px;
+    float: left;
+    font-size: 20px;
+  }
+  
+  .addDate {
+    margin: 0;
+    border: none;
+    width: 33%;
+    height: 42px;
+    padding: 15px;
+    float: left;
+    font-size: 20px;
+  }
+  
+  .addDateEdit {
+    border: none;
+    height: 42px;
+    padding: 15px;
+    font-size: 20px;
+    background-color: transparent;
+  }
+  
+  .selectType {
+    margin: 0;
+    border: none;
+    height: 72px;
+    padding: 15px;
+    font-size: 20px;
+  }
+  
+  .selectSort {
+    margin: 10px;
+    margin-left: 70px;
+    border: none;
+    height: 55px;
+    width: 300px;
+    padding: 15px;
+    font-size: 20px;
+  }
+  
+  .buttonCreateTodo {
+    width: 15%;
+    height: 72px;
+    border-radius: 7px;
+    background-color: #cbf1de;
+    border: none;
+    float: right;
+    font-size: 20px;
+    margin: 15px;
+    box-shadow: 0 5px 6px -4px rgba(0, 0, 0, 0.12), 0 0 1px 0 rgba(0, 0, 0, 0.12);
+  }
+  
+  .divSort {
+    margin-bottom: 40px;
+  }
+  
+  .navbarCont {
+    width: 1184px;
+    height: 40px;
+    margin: 20px;
+    padding: 50px;
+    background-color: var(--white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .editTodo {
+    font-size: 20px;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    width: 90%;
+  }
+  
+  .editTodoDone {
+    font-size: 20px;
+    text-decoration: line-through;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    width: 90%;
+    color: rgb(200, 200, 200);
+  }
+  
+  .radio {
+    display: flex;
+    flex-flow: column wrap;
+    width: 5%;
+    padding: 20px
+  }
+  
+  .tdType {
+    width: 12%;
+    background-color: transparent;
+  }
+  
+  .tdTypeEditMode {
+    background-color: transparent;
+    margin: 0;
+    border: none;
+    height: 72px;
+    font-size: 20px;
+  }
+  
+  .tdText {
+    width: 60%;
+  }
+  
+  .tdData {
+    width: 40%;
+  }
+  
+  .tdIconDone {
+    width: 7%;
+  }
+  
+  .tdIcons {
+    width: 1%;
+  }
+  
+  .todo {
+    font-size: 20px;
+    margin: 20px;
+    margin-left: 70px;
+    width: 990px;
+    height: 40px;
+    background-color: white;
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.12), 0 0 1px 0 rgba(0, 0, 0, 0.12);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .todogreen {
+    font-size: 20px;
+    margin: 20px;
+    margin-left: 70px;
+    width: 990px;
+    height: 40px;
+    background-color: rgb(231, 253, 234);
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.12), 0 0 1px 0 rgba(0, 0, 0, 0.12);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .todoyellow {
+    font-size: 20px;
+    margin: 20px;
+    margin-left: 70px;
+    width: 990px;
+    height: 40px;
+    background-color: rgb(253, 249, 231);
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.12), 0 0 1px 0 rgba(0, 0, 0, 0.12);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .todored {
+    font-size: 20px;
+    margin: 20px;
+    margin-left: 70px;
+    width: 990px;
+    height: 40px;
+    background-color: rgb(255, 225, 225);
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.12), 0 0 1px 0 rgba(0, 0, 0, 0.12);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .tododone {
+    text-decoration: line-through;
+    font-size: 20px;
+    margin: 20px;
+    margin-left: 70px;
+    width: 990px;
+    height: 40px;
+    background-color: rgb(231, 226, 226);
+    color: rgb(185, 184, 184);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
