@@ -10,4 +10,4 @@ router.get('/', authenticate.verifyUser, (req, res) => {
     res.redirect('/');
   });
 
-module.exports = router;
+module.exports = router; 

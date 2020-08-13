@@ -5,8 +5,8 @@ const authenticate = require('../authenticate')
 const router = express.Router();
 router.use(bodyParser.json());
 
-router.get('/', authenticate.verifyUser, (req, res) => {
-    res.send('index');
+router.get('/', (req, res) => {
+    res.send({'hello': 'world'});
 })
 
-module.exports = router; 
+module.exports = router;  

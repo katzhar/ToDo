@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import uuid from 'uuid/v4';
 import { connect } from 'react-redux';
-import { addTodoAction, sortTodoAction } from '../redux';
+import { addTodoAction, sortTodoAction } from '../../redux';
 
 const TodoInput = (props) => {
   const [todo, setTodo] = useState('');
@@ -43,12 +43,12 @@ const TodoInput = (props) => {
         editMode: false,
         complete: false,
       });
-      setTodo('');
     }
   }
 
   return (
     <div>
+      <a href="/login">log out</a>
       <div className="navbarCont">
         <input className="addTodo" type="text"
           onChange={onChangeValue}

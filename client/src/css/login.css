@@ -1,0 +1,23 @@
+.inputLogin {
+    width: 100%;
+    font-size: 30px;
+    padding: 12px 20px;
+    margin: 8px ;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  input[type=submit] {
+    width: 20%;
+    background-color: #cbf1de;
+    padding: 14px 20px;
+    margin-left: 8px 0;
+    border: none;
+  }
+  
+  .loginForm {
+    background-color: transparent;
+    padding: 300px;
+  }

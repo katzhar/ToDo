@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Users = require('../models/users');
 const passport = require('passport');
+const Users = require('../models/users');
 
 const router = express.Router();
 router.use(bodyParser.json());
@@ -18,7 +18,7 @@ router.post('/', (req, res) => {
                 passport.authenticate('local')(req, res, () => {
                     res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');
-                    res.json({ success: true, status: 'Registration Successful!' });
+                    res.json({ success: true, status: 'Registration Successful!' }); 
                 });
             }
         });

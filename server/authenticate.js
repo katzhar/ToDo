@@ -26,7 +26,7 @@ exports.jwtPassport = passport.use(new JwtStrategy(opts,
                 return done(err, false);
             else if (user)
                 return done(null, user);
-            else
+            else 
                 return done(null, false);
         })
     }))
