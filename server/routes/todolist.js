@@ -5,19 +5,8 @@ const asyncHandler = require('express-async-handler');
 const Users = require('../models/users');
 
 router.get('/', authenticate.verifyUser, asyncHandler(async (req, res) => {
-	const todo = await Users.findOne({ _id: req.user._id }, 'tasks')
+	const todo = await Users.findOne({ _id: req.user._id }, 'tasks');
 	res.status(200).send(todo || []);
-}));
-
-router.post('/delete', authenticate.verifyUser, asyncHandler(async (req, res) => {
-	await Users.updateOne({ _id: req.user._id }, { $pull: { "tasks": { id: req.body.id } } },
-		(err, result) => {
-			if (err)
-				res.status(500).send('Error');
-			else if (!result)
-				res.status(400).send('Task not found');
-		})
-	res.status(200).send('success');
 }));
 
 router.put('/create', authenticate.verifyUser, asyncHandler(async (req, res) => {
@@ -41,13 +30,14 @@ router.post('/complete', authenticate.verifyUser, asyncHandler(async (req, res) 
 		(err, result) => {
 			if (err)
 				res.status(500).send('Error');
-			else if (!result) 
+			else if (!result)
 				res.status(400).send('Task not found');
 		}
-	res.status(200).send('success');
+	res.status(200).send(req.user.tasks);
 }));
 
 router.post('/change', authenticate.verifyUser, asyncHandler(async (req, res) => {
+	console.log(req.body)
 	await Users.updateOne({ _id: req.user._id, "tasks.id": req.body.id }, {
 		$set: {
 			"tasks.$.title": req.body.title,
@@ -61,6 +51,17 @@ router.post('/change', authenticate.verifyUser, asyncHandler(async (req, res) =>
 		else if (!result)
 			res.status(400).send('Task not found');
 	})
+	res.status(200).send('success');
+}));
+
+router.post('/delete', authenticate.verifyUser, asyncHandler(async (req, res) => {
+	await Users.updateOne({ _id: req.user._id }, { $pull: { "tasks": { id: req.body.id } } },
+		(err, result) => {
+			if (err)
+				res.status(500).send('Error');
+			else if (!result)
+				res.status(400).send('Task not found');
+		})
 	res.status(200).send('success');
 }));
 

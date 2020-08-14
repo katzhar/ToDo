@@ -1,13 +1,74 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { useHistory } from "react-router-dom";
+import axios from 'axios';
 
 const Signup = () => {
+    const history = useHistory();
+    const [user, setUser] = useState({
+        username: '',
+        email: '',
+        password: ''
+    });
+
+    let sendData = (event) => {
+        event.preventDefault();
+        axios.post('/signup', user)
+            .then(res => {
+                if (res.data.success)
+                    history.push('/login')
+                else
+                    history.push('/signup')
+            }).catch(error => {
+                console.log(error)
+            }
+            );
+    }
+
+    const onChangeUsername = (event) => {
+        setUser({ ...user, username: event.target.value })
+    }
+
+    const onChangeEmail = (event) => {
+        setUser({ ...user, email: event.target.value })
+    }
+
+    const onChangePassword = (event) => {
+        setUser({ ...user, password: event.target.value })
+    }
     return (
         <div className="loginForm">
-            <form >
-                <input className="inputLogin" type="text" id="fname" name="firstname" placeholder="login" />
-                <input className="inputLogin" type="email" id="email" name="email" placeholder="email" />
-                <input className="inputLogin" type="password" id="lname" name="lastname" placeholder="password" />
-                <input className="inputLogin" type="submit" value="Sign Up" /><a href="/login">Already have an account?</a>
+            <form action='/signup' method='post'>
+                <input
+                    className="inputLogin"
+                    type="text"
+                    name="login"
+                    placeholder="login"
+                    value={user.login}
+                    onChange={onChangeUsername}
+                />
+                <input
+                    className="inputLogin"
+                    type="email"
+                    name="email"
+                    placeholder="email"
+                    value={user.email}
+                    onChange={onChangeEmail}
+                />
+                <input
+                    className="inputLogin"
+                    type="password"
+                    name="password"
+                    placeholder="password"
+                    value={user.password}
+                    onChange={onChangePassword}
+                />
+                <input
+                    className="inputLogin"
+                    type="submit"
+                    value="Sign Up"
+                    onClick={sendData}
+                />
+                <a href="/signup">Don't have an account?</a>
             </form>
         </div>
     )

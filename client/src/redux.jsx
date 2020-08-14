@@ -76,7 +76,7 @@ function reducer(state, action) {
         ...state,
         todos: state.todos.map((todo) =>
           todo.id === action.payload
-            ? { ...todo, complete: !todo.complete } : todo
+            ? { ...todo, completed: !todo.completed } : todo
         )
       };
     case 'DELETE_TODO':

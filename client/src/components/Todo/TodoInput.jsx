@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import uuid from 'uuid/v4';
 import { connect } from 'react-redux';
 import { addTodoAction, sortTodoAction } from '../../redux';
+import axios from 'axios';
 
 const TodoInput = (props) => {
   const [todo, setTodo] = useState('');
@@ -11,8 +12,19 @@ const TodoInput = (props) => {
     date: '',
     type: '',
     editMode: false,
-    complete: false
+    completed: false
   });
+
+  let sendData = (data) => {
+    const token = localStorage.token
+    axios.put('/todolist/create', data, {headers: { 'Authorization': `Bearer ${token}`}})
+      .then(res => {
+        console.log(res)
+      }).catch(error => {
+        console.log(error)
+      }
+      );
+  }
 
   const onChangeValue = useCallback((event) => {
     setItemTodo({ ...itemTodo, text: event.target.value })
@@ -34,6 +46,7 @@ const TodoInput = (props) => {
   const addTask = (event) => {
     if (itemTodo.text !== '' && itemTodo.date !== '' && itemTodo.type !== '') {
       event.preventDefault();
+      sendData(itemTodo);
       setTodo([...todo, itemTodo]);
       props.addTodoAction({
         id: uuid(),
@@ -41,7 +54,7 @@ const TodoInput = (props) => {
         date: itemTodo.date,
         type: itemTodo.type,
         editMode: false,
-        complete: false,
+        completed: false,
       });
     }
   }

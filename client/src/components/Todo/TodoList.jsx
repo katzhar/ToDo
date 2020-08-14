@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { setTodoAction, toggleTodoComplete, todoEditMode, editTodoType, editTodoDate, editTodoText, deleteTodoAction } from '../../redux';
+import axios from 'axios';
 import TodoInput from './TodoInput';
 import delLogo from '../../svg/delLogo.svg';
 import editLogo from '../../svg/editLogo.svg';
@@ -10,22 +11,43 @@ import radioLogoSelect from '../../svg/radioLogoSelect.svg';
 
 const TodoList = (props) => {
   const { todos } = props;
+  const token = localStorage.token
 
   useEffect(() => {
-    let data = (JSON.parse(localStorage.getItem('todo')) || []);
-    props.setTodoAction(data)
+    axios.get('/todolist', { headers: { 'Authorization': `Bearer ${token}` } })
+      .then(res => {
+        let data = res.data.tasks;
+        props.setTodoAction(data);
+      }).catch(error => {
+        console.log(error)
+      }
+      );
   }, [])
-
-  useEffect(() => {
-    localStorage.setItem('todo', JSON.stringify(props.todos))
-  }, [props.todos])
 
   const toggleComplete = (todoId) => {
     props.toggleTodoComplete(todoId);
+    axios.post('/todolist/complete', { id: todoId }, { headers: { 'Authorization': `Bearer ${token}` } })
+      .then(res => {
+        if (res)
+          console.log(res)
+        else
+          console.log('fail');
+      }).catch(error => {
+        console.log(error)
+      })
   };
 
   const deleteTodo = (todoId) => {
     props.deleteTodoAction(todoId);
+    axios.post('/todolist/delete', { id: todoId }, { headers: { 'Authorization': `Bearer ${token}` } })
+      .then(res => {
+        if (res)
+          console.log(res)
+        else
+          console.log('fail');
+      }).catch(error => {
+        console.log(error)
+      })
   };
 
   const editMode = (todoId) => {
@@ -41,11 +63,11 @@ const TodoList = (props) => {
       props.editTodoType(todoId, param, value);
   };
 
-  const todoDate = (date, complete) => {
+  const todoDate = (date, completed) => {
     let dateNow = new Date();
     let dateTodo = new Date(date);
     let dbw = Math.floor(Math.abs(dateTodo.getTime() - dateNow.getTime()) / (1000 * 3600 * 24));
-    if (complete === true)
+    if (completed === true)
       return ('tododone')
     else if (dateNow.getTime() > dateTodo.getTime() || dbw === 0)
       return ('todored')
@@ -63,13 +85,13 @@ const TodoList = (props) => {
           return (
             !item.editMode ?
               <div
-                className={todoDate(item.date, item.complete)}
+                className={todoDate(item.date, item.completed)}
                 key={item.id}>
                 <table>
                   <tbody>
                     <tr>
                       <td className="tdIconDone">
-                        <img src={!item.complete ? radioLogo : radioLogoSelect}
+                        <img src={!item.completed ? radioLogo : radioLogoSelect}
                           keyvalue={item.id}
                           onClick={toggleComplete.bind(null, item.id)}
                         />
@@ -84,12 +106,12 @@ const TodoList = (props) => {
                     </tr>
                   </tbody>
                 </table>
-              </div> : <div className={todoDate(item.date, item.complete)} key={item.id}>
+              </div> : <div className={todoDate(item.date, item.completed)} key={item.id}>
                 <table>
                   <tbody>
                     <tr>
                       <td className="tdIconDone">
-                        <img src={!item.complete ? radioLogo : radioLogoSelect}
+                        <img src={!item.completed ? radioLogo : radioLogoSelect}
                           keyvalue={item.id}
                           onClick={toggleComplete.bind(null, item.id)}
                         />

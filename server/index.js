@@ -30,7 +30,7 @@ const todolist = require('./routes/todolist');
 app.use('/index', index);
 app.use('/signup', signup);
 app.use('/login', login);
-app.use('/logout', logout); 
+app.use('/logout', logout);
 app.use('/todolist', todolist);
 
 app.use(express.urlencoded({ extended: true }));

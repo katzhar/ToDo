@@ -1,14 +1,13 @@
 import React from 'react';
+import { store } from './redux';
+import { Provider } from 'react-redux';
+import { Route } from 'react-router-dom';
 import todocss from './css/todo.css'
 import logincss from './css/login.css'
-import { Provider } from 'react-redux';
-import { store } from './redux';
-import { Route } from 'react-router-dom';
-import Header from './components/Header';
 import TodoList from './components/Todo/TodoList';
+import Header from './components/Header';
 import Login from './components/Login';
 import Signup from './components/Signup';
-
 
 const App = () => {
   return (

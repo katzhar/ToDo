@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
+import { useHistory } from "react-router-dom";
 import axios from 'axios';
 
 const Login = () => {
+    const history = useHistory();
     const [user, setUser] = useState({
-        username: "",
-        password: ""
+        username: '',
+        password: ''
     });
 
     let sendData = (event) => {
         event.preventDefault();
         axios.post('/login', user)
             .then(res => {
-                console.log(res)
+                if (res.data.success) {
+                    localStorage.setItem('token', res.data.token);
+                    history.push('/todolist')
+                } else
+                    history.push('/login')
             }).catch(error => {
                 console.log(error)
             }
@@ -21,7 +27,7 @@ const Login = () => {
     const onChangeUsername = (event) => {
         setUser({ ...user, username: event.target.value })
     }
-
+    
     const onChangePassword = (event) => {
         setUser({ ...user, password: event.target.value })
     }
