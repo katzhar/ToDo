@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { Link } from "react-router-dom";
 import uuid from 'uuid/v4';
 import { connect } from 'react-redux';
 import { addTodoAction, sortTodoAction } from '../../redux';
@@ -8,7 +9,7 @@ const TodoInput = (props) => {
   const [todo, setTodo] = useState('');
   const [itemTodo, setItemTodo] = useState({
     id: uuid(),
-    text: '',
+    title: '',
     date: '',
     type: '',
     editMode: false,
@@ -17,7 +18,7 @@ const TodoInput = (props) => {
 
   let sendData = (data) => {
     const token = localStorage.token
-    axios.put('/todolist/create', data, {headers: { 'Authorization': `Bearer ${token}`}})
+    axios.post('/todolist', data, { headers: { 'Authorization': `Bearer ${token}` } })
       .then(res => {
         console.log(res)
       }).catch(error => {
@@ -27,7 +28,7 @@ const TodoInput = (props) => {
   }
 
   const onChangeValue = useCallback((event) => {
-    setItemTodo({ ...itemTodo, text: event.target.value })
+    setItemTodo({ ...itemTodo, title: event.target.value })
   }, [itemTodo]);
 
   const onChangeDate = (event) => {
@@ -39,18 +40,17 @@ const TodoInput = (props) => {
   }
 
   const sortType = (event) => {
-    let data = (JSON.parse(localStorage.getItem('todo')) || []);
-    props.sortTodoAction(data, event);
+    props.sortTodoAction(event);
   };
 
   const addTask = (event) => {
-    if (itemTodo.text !== '' && itemTodo.date !== '' && itemTodo.type !== '') {
+    if (itemTodo.title !== '' && itemTodo.date !== '' && itemTodo.type !== '') {
       event.preventDefault();
       sendData(itemTodo);
       setTodo([...todo, itemTodo]);
       props.addTodoAction({
         id: uuid(),
-        text: itemTodo.text,
+        title: itemTodo.title,
         date: itemTodo.date,
         type: itemTodo.type,
         editMode: false,
@@ -59,13 +59,17 @@ const TodoInput = (props) => {
     }
   }
 
+  const clearLocalStorage = () => {
+    localStorage.removeItem('token')
+  }
+
   return (
     <div>
-      <a href="/login">log out</a>
+      <Link to="/login" onClick={clearLocalStorage}>Log out</Link>
       <div className="navbarCont">
         <input className="addTodo" type="text"
           onChange={onChangeValue}
-          value={todo.text}
+          value={todo.title}
           placeholder="AddTask..." />
         <select className="selectType" onChange={onChangeType} >
           <option value="personal">personal</option>
@@ -81,7 +85,7 @@ const TodoInput = (props) => {
           onChange={(e) => { sortType(e.target.value) }}>
           <option value="default">sort by</option>
           <option value="date">date</option>
-          <option value="text">text</option>
+          <option value="title">title</option>
           <option value="type">type</option>
         </select>
       </div>

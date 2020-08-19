@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import axios from 'axios';
 
 const Login = () => {
@@ -27,7 +27,7 @@ const Login = () => {
     const onChangeUsername = (event) => {
         setUser({ ...user, username: event.target.value })
     }
-    
+
     const onChangePassword = (event) => {
         setUser({ ...user, password: event.target.value })
     }
@@ -52,7 +52,7 @@ const Login = () => {
                     value={user.password}
                     placeholder="password" />
                 <input className="inputLogin" type="submit" value="Log In" onClick={sendData} />
-                <a href="/signup">Don't have an account?</a>
+                <Link to="/signup">Don't have an account?</Link>
             </form>
         </div>
     )

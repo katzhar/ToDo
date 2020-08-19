@@ -24,27 +24,24 @@ const TodoList = (props) => {
       );
   }, [])
 
-  const toggleComplete = (todoId) => {
-    props.toggleTodoComplete(todoId);
-    axios.post('/todolist/complete', { id: todoId }, { headers: { 'Authorization': `Bearer ${token}` } })
+  const todoEdit = (todoId, data) => {
+    let param = data.param;
+    let value = data.data;
+    axios.put(`/todolist/${todoId}`, { [param]: value },
+      { headers: { 'Authorization': `Bearer ${token}` } })
       .then(res => {
-        if (res)
-          console.log(res)
-        else
-          console.log('fail');
+        console.log(res);
       }).catch(error => {
         console.log(error)
       })
-  };
+  }
 
   const deleteTodo = (todoId) => {
     props.deleteTodoAction(todoId);
-    axios.post('/todolist/delete', { id: todoId }, { headers: { 'Authorization': `Bearer ${token}` } })
+    axios.delete(`/todolist/${todoId}`,
+      { headers: { 'Authorization': `Bearer ${token}` } })
       .then(res => {
-        if (res)
-          console.log(res)
-        else
-          console.log('fail');
+        console.log(res);
       }).catch(error => {
         console.log(error)
       })
@@ -55,13 +52,21 @@ const TodoList = (props) => {
   };
 
   const editTodo = (param, value, todoId) => {
-    if (param === 'text')
-      props.editTodoText(todoId, param, value);
-    else if (param === 'date')
-      props.editTodoDate(todoId, param, value);
-    else if (param === 'type')
-      props.editTodoType(todoId, param, value);
-  };
+    let res;
+    if (param === 'title') {
+      res = props.editTodoText(todoId, param, value);
+      todoEdit(todoId, res)
+    } else if (param === 'date') {
+      res = props.editTodoDate(todoId, param, value);
+      todoEdit(todoId, res)
+    } else if (param === 'completed') {
+      res = props.toggleTodoComplete(todoId, param, value);
+      todoEdit(todoId, res)
+    } else if (param === 'type') {
+      res = props.editTodoType(todoId, param, value);
+      todoEdit(todoId, res)
+    }
+  }
 
   const todoDate = (date, completed) => {
     let dateNow = new Date();
@@ -92,16 +97,15 @@ const TodoList = (props) => {
                     <tr>
                       <td className="tdIconDone">
                         <img src={!item.completed ? radioLogo : radioLogoSelect}
-                          keyvalue={item.id}
-                          onClick={toggleComplete.bind(null, item.id)}
+                          onClick={(e) => editTodo('completed', !item.completed, item.id)}
                         />
                       </td>
                       <td className="tdType">{item.type}</td>
-                      <td className="tdText"><span className="editTodo">{item.text}</span></td>
+                      <td className="tdText"><span className="editTodo">{item.title}</span></td>
                       <td className="tdData">{item.date}</td>
                       <td className="tdIcons">
-                        <img src={editLogo} keyvalue={index} onClick={editMode.bind(null, item.id)} />
-                        <img src={delLogo} keyvalue={index} onClick={deleteTodo.bind(null, item.id)} />
+                        <img src={editLogo} keyvalue={index} onClick={() => editMode(item.id)} />
+                        <img src={delLogo} keyvalue={index} onClick={() => deleteTodo(item.id)} />
                       </td>
                     </tr>
                   </tbody>
@@ -112,8 +116,7 @@ const TodoList = (props) => {
                     <tr>
                       <td className="tdIconDone">
                         <img src={!item.completed ? radioLogo : radioLogoSelect}
-                          keyvalue={item.id}
-                          onClick={toggleComplete.bind(null, item.id)}
+                          onClick={(e) => editTodo('completed', !item.completed, item.id)}
                         />
                       </td>
                       <td>
@@ -126,9 +129,9 @@ const TodoList = (props) => {
                       </td>
                       <td className="tdText">
                         <input className="editTodo" type="text"
-                          value={item.text}
+                          value={item.title}
                           keyvalue={item.id}
-                          onChange={(e) => editTodo('text', e.target.value, item.id)}
+                          onChange={(e) => editTodo('title', e.target.value, item.id)}
                         />
                       </td>
                       <td>
@@ -141,7 +144,7 @@ const TodoList = (props) => {
                       <td className="tdIcons">
                         <img src={doneLogo}
                           keyvalue={index}
-                          onClick={editMode.bind(null, item.id)}
+                          onClick={() => editMode(item.id)}
                         />
                       </td>
                     </tr>

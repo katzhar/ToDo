@@ -22,18 +22,24 @@ function reducer(state, action) {
         ...state,
         todos: action.data
       };
-
     case 'SORT_TODO':
-      let res;
+      let res = [];
+      let newState = [...state.todos];
       switch (action.param) {
         case "date":
-          res = action.data.sort((a, b) => new Date(a[action.param]).getTime() - new Date(b[action.param]).getTime());
-        case "text":
+          res = newState.sort((a, b) => new Date(a[action.param]).getTime() - new Date(b[action.param]).getTime());
+          break;
+        case "title":
+          res = newState.sort((a, b) => {
+            return a[action.param] - b[action.param];
+          })
+          break;
         case "type":
-          res = action.data.sort((a, b) => a[action.param].localeCompare(b[action.param]));
+          res = newState.sort((a, b) => a[action.param].localeCompare(b[action.param]));
+          break;
         case "sortby":
         default:
-          res = action.data
+          res = newState
       }
       return {
         ...state,
@@ -60,7 +66,7 @@ function reducer(state, action) {
         ...state,
         todos: state.todos.map((todo) =>
           todo.id === action.payload
-            ? { ...todo, text: action.data } : todo
+            ? { ...todo, title: action.data } : todo
         )
       };
     case 'EDIT_TODO_TYPE':
@@ -93,8 +99,8 @@ export const setTodoAction = (data) => ({
   type: 'SET_TODO', data
 });
 
-export const sortTodoAction = (data, param) => ({
-  type: 'SORT_TODO', data, param
+export const sortTodoAction = (param) => ({
+  type: 'SORT_TODO', param
 });
 
 export const addTodoAction = (todo) => ({
@@ -102,9 +108,9 @@ export const addTodoAction = (todo) => ({
   payload: todo
 });
 
-export const toggleTodoComplete = (todoId) => ({
+export const toggleTodoComplete = (todoId, param, data) => ({
   type: 'TOGGLE_TODO',
-  payload: todoId
+  payload: todoId, param, data
 });
 
 export const todoEditMode = (todoId) => ({

@@ -5,7 +5,9 @@ const app = express();
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const http = require('http').createServer(app);
-const passport = require('passport')
+const passport = require('passport');
+const jwt = require('express-jwt');
+const PORT = process.env.PORT || 3002;
 
 app.use(router);
 app.use(express.json());
@@ -36,4 +38,4 @@ app.use('/todolist', todolist);
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
-http.listen(3002, () => console.log('Server Started')); 
+http.listen(PORT, () => console.log('Server Started'));

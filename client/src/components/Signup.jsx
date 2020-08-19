@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import axios from 'axios';
 
 const Signup = () => {
@@ -68,7 +68,7 @@ const Signup = () => {
                     value="Sign Up"
                     onClick={sendData}
                 />
-                <a href="/signup">Don't have an account?</a>
+                 <Link to="/login">Already have an account?</Link>
             </form>
         </div>
     )
