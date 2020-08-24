@@ -19,9 +19,7 @@ const TodoInput = (props) => {
   let sendData = (data) => {
     const token = localStorage.token
     axios.post('/todolist', data, { headers: { 'Authorization': `Bearer ${token}` } })
-      .then(res => {
-        console.log(res)
-      }).catch(error => {
+      .catch(error => {
         console.log(error)
       }
       );

@@ -11,7 +11,7 @@ import radioLogoSelect from '../../svg/radioLogoSelect.svg';
 
 const TodoList = (props) => {
   const { todos } = props;
-  const token = localStorage.token
+  const token = localStorage.token;
 
   useEffect(() => {
     axios.get('/todolist', { headers: { 'Authorization': `Bearer ${token}` } })
@@ -20,8 +20,7 @@ const TodoList = (props) => {
         props.setTodoAction(data);
       }).catch(error => {
         console.log(error)
-      }
-      );
+      });
   }, [])
 
   const todoEdit = (todoId, data) => {
@@ -29,9 +28,7 @@ const TodoList = (props) => {
     let value = data.data;
     axios.put(`/todolist/${todoId}`, { [param]: value },
       { headers: { 'Authorization': `Bearer ${token}` } })
-      .then(res => {
-        console.log(res);
-      }).catch(error => {
+      .catch(error => {
         console.log(error)
       })
   }
@@ -40,9 +37,7 @@ const TodoList = (props) => {
     props.deleteTodoAction(todoId);
     axios.delete(`/todolist/${todoId}`,
       { headers: { 'Authorization': `Bearer ${token}` } })
-      .then(res => {
-        console.log(res);
-      }).catch(error => {
+      .catch(error => {
         console.log(error)
       })
   };

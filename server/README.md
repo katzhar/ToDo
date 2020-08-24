@@ -1,5 +1,5 @@
 ## Как подключиться к серверу?
-1) в package.json (client) необходимо прописать "proxy": "https://damp-fjord-03984.herokuapp.com" (при разворачивании локально был бы localhost)
+1) в package.json (client) необходимо прописать "proxy": "https://damp-fjord-03984.herokuapp.com"
 2) при успешной авторизации(/login) вам возвращается токен, по которому идентифицируется юзер, - токен необходимо сохранить в localstorage (client) и отправлять на сервер при каждом запросе (кроме регистрации и авторизации):
 { header = { Authorization : Bearer ${localStorage.getItem('token') || ''} };
 
@@ -7,7 +7,7 @@ if fail: 401 Unauthorized
  
 ## authorization
 method: POST,
-path: '/signup',
+path: '/login',
 req => {    
     username: string,
     password: string
@@ -19,7 +19,7 @@ res => {
 
 ## create new user
 method: POST,
-path: '/login',
+path: '/signup',
 req => {
     username: string,
     email: string,
@@ -73,6 +73,49 @@ req => {
     ключ_значения: значение
 }
 
+## get all Types
+method: GET,
+path: '/types'
+
+res: "types": [ {
+            "id": string,
+            "name": string,
+            "colorId": string
+             },...]
+           
+colorId будет возвращаться с пустой строкой, если это поле не используете для создания типа
+
+if fail: 401 Unauthorized
+
+## create Type
+method: POST,
+path: '/types',
+req => {
+   name: string, 
+   colorId: string, 
+}
+res => {
+           "id": string,
+           "name": string,
+           "colorId": string
+       }
+colorId необязательное поле
+if fail: 401 Unauthorized
+ 
+## edit Type
+method: PUT,
+path: '/types/:id',
+где id - id Type
+req => {
+    ключ_измененного_значения: измененное_значение
+}
+(при необходимости, ключей может быть несколько)
+
+## delete Type
+method: DELETE,
+path: 'types/:id',
+где id - id Type
+
 ## logout
 method: GET
-path: '/login'
+path: '/logout'
