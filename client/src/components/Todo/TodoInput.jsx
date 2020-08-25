@@ -25,6 +25,15 @@ const TodoInput = (props) => {
       );
   }
 
+  let logout = () => {
+    const token = localStorage.token
+    axios.get('/logout', { headers: { 'Authorization': `Bearer ${token}` } })
+      .catch(error => {
+        console.log(error)
+      }
+      );
+  }
+
   const onChangeValue = useCallback((event) => {
     setItemTodo({ ...itemTodo, title: event.target.value })
   }, [itemTodo]);
@@ -58,7 +67,8 @@ const TodoInput = (props) => {
   }
 
   const clearLocalStorage = () => {
-    localStorage.removeItem('token')
+    logout();
+    localStorage.removeItem('token');
   }
 
   return (

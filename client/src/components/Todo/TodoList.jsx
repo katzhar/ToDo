@@ -26,8 +26,10 @@ const TodoList = (props) => {
   const todoEdit = (todoId, data) => {
     let param = data.param;
     let value = data.data;
-    axios.put(`/todolist/${todoId}`, { [param]: value },
-      { headers: { 'Authorization': `Bearer ${token}` } })
+    axios.put(`/todolist/${todoId}`, { [param]: value }, { headers: { 'Authorization': `Bearer ${token}` } })
+      .then((res) => {
+        console.log(res.data)
+      })
       .catch(error => {
         console.log(error)
       })
