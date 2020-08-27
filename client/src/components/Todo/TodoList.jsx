@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { setTodoAction, toggleTodoComplete, todoEditMode, editTodoType, editTodoDate, editTodoText, deleteTodoAction } from '../../redux';
+import { setTodoAction, toggleTodoComplete, todoEditMode, editTodoType, editTodoDate, editTodoText, deleteTodoAction } from '../../redux/Todo/TodoActions';
 import axios from 'axios';
 import TodoInput from './TodoInput';
 import delLogo from '../../svg/delLogo.svg';
@@ -8,6 +8,7 @@ import editLogo from '../../svg/editLogo.svg';
 import doneLogo from '../../svg/doneLogo.svg';
 import radioLogo from '../../svg/radioLogo.svg';
 import radioLogoSelect from '../../svg/radioLogoSelect.svg';
+import { todoEdit, deleteTodo } from '../../utils/requests'
 
 const TodoList = (props) => {
   const { todos } = props;
@@ -22,18 +23,6 @@ const TodoList = (props) => {
         console.log(error)
       });
   }, [])
-
-  const todoEdit = (todoId, data) => {
-    let param = data.param;
-    let value = data.data;
-    axios.put(`/todolist/${todoId}`, { [param]: value }, { headers: { 'Authorization': `Bearer ${token}` } })
-      .then((res) => {
-        console.log(res.data)
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
 
   const deleteTodo = (todoId) => {
     props.deleteTodoAction(todoId);

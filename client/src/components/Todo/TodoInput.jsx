@@ -1,12 +1,12 @@
 import React, { useState, useCallback } from 'react';
-import { Link } from "react-router-dom";
 import uuid from 'uuid/v4';
+import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
-import { addTodoAction, sortTodoAction } from '../../redux';
-import axios from 'axios';
+import { sendData, logout } from '../../utils/requests';
+import { addTodoAction, sortTodoAction } from '../../redux/Todo/TodoActions';
 
-const TodoInput = (props) => {
-  const [todo, setTodo] = useState('');
+const TodoInput = ({ addTodoAction, sortTodoAction }) => {
+
   const [itemTodo, setItemTodo] = useState({
     id: uuid(),
     title: '',
@@ -15,24 +15,6 @@ const TodoInput = (props) => {
     editMode: false,
     completed: false
   });
-
-  let sendData = (data) => {
-    const token = localStorage.token
-    axios.post('/todolist', data, { headers: { 'Authorization': `Bearer ${token}` } })
-      .catch(error => {
-        console.log(error)
-      }
-      );
-  }
-
-  let logout = () => {
-    const token = localStorage.token
-    axios.get('/logout', { headers: { 'Authorization': `Bearer ${token}` } })
-      .catch(error => {
-        console.log(error)
-      }
-      );
-  }
 
   const onChangeValue = useCallback((event) => {
     setItemTodo({ ...itemTodo, title: event.target.value })
@@ -43,19 +25,19 @@ const TodoInput = (props) => {
   }
 
   const onChangeType = (event) => {
+    console.log(event.target)
     setItemTodo({ ...itemTodo, type: event.target.value })
   }
 
   const sortType = (event) => {
-    props.sortTodoAction(event);
+    sortTodoAction(event);
   };
 
   const addTask = (event) => {
     if (itemTodo.title !== '' && itemTodo.date !== '' && itemTodo.type !== '') {
       event.preventDefault();
       sendData(itemTodo);
-      setTodo([...todo, itemTodo]);
-      props.addTodoAction({
+      addTodoAction({
         id: uuid(),
         title: itemTodo.title,
         date: itemTodo.date,
@@ -77,7 +59,7 @@ const TodoInput = (props) => {
       <div className="navbarCont">
         <input className="addTodo" type="text"
           onChange={onChangeValue}
-          value={todo.title}
+          value={itemTodo.title}
           placeholder="AddTask..." />
         <select className="selectType" onChange={onChangeType} >
           <option value="personal">personal</option>
@@ -85,7 +67,7 @@ const TodoInput = (props) => {
         </select>
         <input className="addDate" type="datetime-local"
           onChange={onChangeDate}
-          value={todo.date} />
+          value={itemTodo.date} />
         <button onClick={addTask} className="buttonCreateTodo">Add</button>
       </div>
       <div className="divSort">

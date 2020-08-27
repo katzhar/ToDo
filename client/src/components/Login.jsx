@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory, Link } from "react-router-dom";
+// import { sendData } from '../../utils/requests'
 import axios from 'axios';
 
 const Login = () => {

@@ -2,7 +2,7 @@
   "name": "redux-basic",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3002",
+  "proxy": "https://damp-fjord-03984.herokuapp.com/",
   "dependencies": {
     "axios": "^0.19.2",
     "babel-jest": "24.7.1",

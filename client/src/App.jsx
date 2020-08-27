@@ -1,5 +1,5 @@
 import React from 'react';
-import { store } from './redux';
+import { store } from './redux/index';
 import { Provider } from 'react-redux';
 import { Route } from 'react-router-dom';
 import todocss from './css/todo.css'
