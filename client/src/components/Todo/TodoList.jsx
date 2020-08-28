@@ -1,57 +1,40 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { setTodoAction, toggleTodoComplete, todoEditMode, editTodoType, editTodoDate, editTodoText, deleteTodoAction } from '../../redux/Todo/TodoActions';
-import axios from 'axios';
+import {
+  setTodoAction, toggleTodoComplete, todoEditMode, editTodoType, editTodoDate,
+  editTodoText, deleteTodoAction, getAllTodo
+} from '../../redux/Todo/TodoActions';
 import TodoInput from './TodoInput';
 import delLogo from '../../svg/delLogo.svg';
 import editLogo from '../../svg/editLogo.svg';
 import doneLogo from '../../svg/doneLogo.svg';
 import radioLogo from '../../svg/radioLogo.svg';
 import radioLogoSelect from '../../svg/radioLogoSelect.svg';
-import { todoEdit, deleteTodo } from '../../utils/requests'
+import { todoEditReq, deleteTodoReq } from '../../utils/requests';
 
-const TodoList = (props) => {
+const TodoList = ({ getAllTodo, ...props }) => {
   const { todos } = props;
-  const token = localStorage.token;
 
   useEffect(() => {
-    axios.get('/todolist', { headers: { 'Authorization': `Bearer ${token}` } })
-      .then(res => {
-        let data = res.data.tasks;
-        props.setTodoAction(data);
-      }).catch(error => {
-        console.log(error)
-      });
+    getAllTodo();
   }, [])
 
   const deleteTodo = (todoId) => {
     props.deleteTodoAction(todoId);
-    axios.delete(`/todolist/${todoId}`,
-      { headers: { 'Authorization': `Bearer ${token}` } })
-      .catch(error => {
-        console.log(error)
-      })
-  };
-
-  const editMode = (todoId) => {
-    props.todoEditMode(todoId);
+    deleteTodoReq(todoId);
   };
 
   const editTodo = (param, value, todoId) => {
     let res;
-    if (param === 'title') {
+    if (param === 'title')
       res = props.editTodoText(todoId, param, value);
-      todoEdit(todoId, res)
-    } else if (param === 'date') {
+    else if (param === 'date')
       res = props.editTodoDate(todoId, param, value);
-      todoEdit(todoId, res)
-    } else if (param === 'completed') {
+    else if (param === 'completed')
       res = props.toggleTodoComplete(todoId, param, value);
-      todoEdit(todoId, res)
-    } else if (param === 'type') {
+    else if (param === 'type')
       res = props.editTodoType(todoId, param, value);
-      todoEdit(todoId, res)
-    }
+    todoEditReq(todoId, res)
   }
 
   const todoDate = (date, completed) => {
@@ -82,7 +65,9 @@ const TodoList = (props) => {
                   <tbody>
                     <tr>
                       <td className="tdIconDone">
-                        <img src={!item.completed ? radioLogo : radioLogoSelect}
+                        <img
+                          alt="completed"
+                          src={!item.completed ? radioLogo : radioLogoSelect}
                           onClick={(e) => editTodo('completed', !item.completed, item.id)}
                         />
                       </td>
@@ -90,8 +75,16 @@ const TodoList = (props) => {
                       <td className="tdText"><span className="editTodo">{item.title}</span></td>
                       <td className="tdData">{item.date}</td>
                       <td className="tdIcons">
-                        <img src={editLogo} keyvalue={index} onClick={() => editMode(item.id)} />
-                        <img src={delLogo} keyvalue={index} onClick={() => deleteTodo(item.id)} />
+                        <img
+                          alt="editTodo"
+                          src={editLogo}
+                          keyvalue={index}
+                          onClick={() => props.todoEditMode(item.id)} />
+                        <img
+                          alt="deleteTodo"
+                          src={delLogo}
+                          keyvalue={index}
+                          onClick={() => deleteTodo(item.id)} />
                       </td>
                     </tr>
                   </tbody>
@@ -101,7 +94,9 @@ const TodoList = (props) => {
                   <tbody>
                     <tr>
                       <td className="tdIconDone">
-                        <img src={!item.completed ? radioLogo : radioLogoSelect}
+                        <img
+                          alt="completed"
+                          src={!item.completed ? radioLogo : radioLogoSelect}
                           onClick={(e) => editTodo('completed', !item.completed, item.id)}
                         />
                       </td>
@@ -128,9 +123,11 @@ const TodoList = (props) => {
                         />
                       </td>
                       <td className="tdIcons">
-                        <img src={doneLogo}
+                        <img
+                          alt="SubmitEdits"
+                          src={doneLogo}
                           keyvalue={index}
-                          onClick={() => editMode(item.id)}
+                          onClick={() => props.todoEditMode(item.id)}
                         />
                       </td>
                     </tr>
@@ -155,6 +152,7 @@ export default connect(
   editTodoType,
   editTodoDate,
   editTodoText,
-  deleteTodoAction
+  deleteTodoAction,
+  getAllTodo
 }
 )(TodoList);

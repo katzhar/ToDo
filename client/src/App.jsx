@@ -2,8 +2,6 @@ import React from 'react';
 import { store } from './redux/index';
 import { Provider } from 'react-redux';
 import { Route } from 'react-router-dom';
-import todocss from './css/todo.css'
-import logincss from './css/login.css'
 import TodoList from './components/Todo/TodoList';
 import Header from './components/Header';
 import Login from './components/Login';

@@ -1,12 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import uuid from 'uuid/v4';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
-import { sendData, logout } from '../../utils/requests';
+import { sendDataReq, logoutReq } from '../../utils/requests';
 import { addTodoAction, sortTodoAction } from '../../redux/Todo/TodoActions';
 
 const TodoInput = ({ addTodoAction, sortTodoAction }) => {
-
   const [itemTodo, setItemTodo] = useState({
     id: uuid(),
     title: '',
@@ -16,27 +15,14 @@ const TodoInput = ({ addTodoAction, sortTodoAction }) => {
     completed: false
   });
 
-  const onChangeValue = useCallback((event) => {
-    setItemTodo({ ...itemTodo, title: event.target.value })
-  }, [itemTodo]);
-
-  const onChangeDate = (event) => {
-    setItemTodo({ ...itemTodo, date: event.target.value })
+  const onChangeValue = (param, value) => {
+    setItemTodo({ ...itemTodo, [param]: value })
   }
-
-  const onChangeType = (event) => {
-    console.log(event.target)
-    setItemTodo({ ...itemTodo, type: event.target.value })
-  }
-
-  const sortType = (event) => {
-    sortTodoAction(event);
-  };
 
   const addTask = (event) => {
     if (itemTodo.title !== '' && itemTodo.date !== '' && itemTodo.type !== '') {
       event.preventDefault();
-      sendData(itemTodo);
+      sendDataReq(itemTodo);
       addTodoAction({
         id: uuid(),
         title: itemTodo.title,
@@ -49,7 +35,7 @@ const TodoInput = ({ addTodoAction, sortTodoAction }) => {
   }
 
   const clearLocalStorage = () => {
-    logout();
+    logoutReq();
     localStorage.removeItem('token');
   }
 
@@ -58,21 +44,22 @@ const TodoInput = ({ addTodoAction, sortTodoAction }) => {
       <Link to="/login" onClick={clearLocalStorage}>Log out</Link>
       <div className="navbarCont">
         <input className="addTodo" type="text"
-          onChange={onChangeValue}
+          onChange={(e) => onChangeValue('title', e.target.value)}
           value={itemTodo.title}
           placeholder="AddTask..." />
-        <select className="selectType" onChange={onChangeType} >
+        <select className="selectType"
+          onChange={(e) => onChangeValue('type', e.target.value)} >
           <option value="personal">personal</option>
           <option value="work">work</option>
         </select>
         <input className="addDate" type="datetime-local"
-          onChange={onChangeDate}
+          onChange={(e) => onChangeValue('date', e.target.value)}
           value={itemTodo.date} />
         <button onClick={addTask} className="buttonCreateTodo">Add</button>
       </div>
       <div className="divSort">
         <select className="selectSort"
-          onChange={(e) => { sortType(e.target.value) }}>
+          onChange={(e) => { sortTodoAction(e.target.value) }}>
           <option value="default">sort by</option>
           <option value="date">date</option>
           <option value="title">title</option>
@@ -91,5 +78,4 @@ export default connect(
   mapStateToProps, {
   addTodoAction,
   sortTodoAction
-}
-)(TodoInput);
+})(TodoInput);

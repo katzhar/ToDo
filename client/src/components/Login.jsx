@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory, Link } from "react-router-dom";
-// import { sendData } from '../../utils/requests'
-import axios from 'axios';
+import { loginUserReq } from '../utils/requests';
 
 const Login = () => {
     const history = useHistory();
@@ -10,27 +9,22 @@ const Login = () => {
         password: ''
     });
 
-    let sendData = (event) => {
+    const sendData = (event) => {
         event.preventDefault();
-        axios.post('/login', user)
-            .then(res => {
-                if (res.data.success) {
-                    localStorage.setItem('token', res.data.token);
-                    history.push('/todolist')
-                } else
-                    history.push('/login')
-            }).catch(error => {
-                console.log(error)
-            }
-            );
+        loginUserReq(user).then(res => {
+            if (res.data.success) {
+                localStorage.setItem('token', res.data.token);
+                history.push('/todolist')
+            } else
+                history.push('/login')
+        }).catch(error => {
+            console.log(error)
+        }
+        );
     }
 
-    const onChangeUsername = (event) => {
-        setUser({ ...user, username: event.target.value })
-    }
-
-    const onChangePassword = (event) => {
-        setUser({ ...user, password: event.target.value })
+    const onChangeValue = (param, value) => {
+        setUser({ ...user, [param]: value })
     }
 
     return (
@@ -39,19 +33,15 @@ const Login = () => {
                 <input
                     className="inputLogin"
                     name='username'
-                    label="username"
                     type="text"
-                    onChange={onChangeUsername}
-                    value={user.username}
-                    placeholder="username" />
+                    placeholder="username"
+                    onChange={(e) => onChangeValue('username', e.target.value)} />
                 <input
                     className="inputLogin"
-                    label="password"
-                    type="password"
                     name="password"
-                    onChange={onChangePassword}
-                    value={user.password}
-                    placeholder="password" />
+                    type="password"
+                    placeholder="password"
+                    onChange={(e) => onChangeValue('password', e.target.value)} />
                 <input className="inputLogin" type="submit" value="Log In" onClick={sendData} />
                 <Link to="/signup">Don't have an account?</Link>
             </form>

@@ -1,4 +1,9 @@
-function TodoReducer(state = { todo: [] }, action) {
+
+const initialState = {
+    todos: []
+  };
+
+function TodoReducer(state = initialState, action) {
     switch (action.type) {
         case 'ADD_TODO':
             return {

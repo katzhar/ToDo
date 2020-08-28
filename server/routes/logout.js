@@ -14,7 +14,7 @@ const client = memjs.Client.create(process.env.MEMCACHEDCLOUD_SERVERS, {
 router.get('/', authenticate.verifyUser, async (req, res) => {
   const token = req.headers.authorization.split(' ')[1];
   const isTokenBlacklisted = await authenticate.isBlacklisted(token);
-  if (isTokenBlacklisted)
+  if (isTokenBlacklisted) 
     return res.status(401).send('Token is invalid');
   else {
     client.add(token, token, { expires: 10000 }, (err, val) => {
