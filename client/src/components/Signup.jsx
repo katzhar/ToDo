@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory, Link } from "react-router-dom";
 import { signupUserReq } from '../utils/requests';
+import style from '../css/login.module.css';
 
 const Signup = () => {
     const history = useHistory();
@@ -31,25 +32,25 @@ const Signup = () => {
         <div className="loginForm">
             <form action='/signup' method='post'>
                 <input
-                    className="inputLogin"
+                    className={style.inputLogin}
                     type="text"
                     name="username"
                     placeholder="username"
                     onChange={(e) => onChangeValue('username', e.target.value)} />
                 <input
-                    className="inputLogin"
+                    className={style.inputLogin}
                     type="email"
                     name="email"
                     placeholder="email"
                     onChange={(e) => onChangeValue('email', e.target.value)} />
                 <input
-                    className="inputLogin"
+                    className={style.inputLogin}
                     type="password"
                     name="password"
                     placeholder="password"
                     onChange={(e) => onChangeValue('password', e.target.value)} />
                 <input
-                    className="inputLogin"
+                    className={style.inputLogin}
                     type="submit"
                     value="Sign Up"
                     onClick={sendData}

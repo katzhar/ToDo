@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import { sendDataReq, logoutReq } from '../../utils/requests';
 import { addTodoAction, sortTodoAction } from '../../redux/Todo/TodoActions';
+import style from '../../css/todo.module.css';
 
 const TodoInput = ({ addTodoAction, sortTodoAction }) => {
   const [itemTodo, setItemTodo] = useState({
@@ -42,23 +43,32 @@ const TodoInput = ({ addTodoAction, sortTodoAction }) => {
   return (
     <div>
       <Link to="/login" onClick={clearLocalStorage}>Log out</Link>
-      <div className="navbarCont">
-        <input className="addTodo" type="text"
+      <div className={style.navbarCont}>
+        <input
+          className={style.addTodo}
+          type="text"
           onChange={(e) => onChangeValue('title', e.target.value)}
           value={itemTodo.title}
           placeholder="AddTask..." />
-        <select className="selectType"
+        <select
+          className={style.selectType}
           onChange={(e) => onChangeValue('type', e.target.value)} >
           <option value="personal">personal</option>
           <option value="work">work</option>
         </select>
-        <input className="addDate" type="datetime-local"
+        <input
+          className={style.addDate}
+          type="datetime-local"
           onChange={(e) => onChangeValue('date', e.target.value)}
           value={itemTodo.date} />
-        <button onClick={addTask} className="buttonCreateTodo">Add</button>
+        <button
+          onClick={addTask}
+          className={style.buttonCreateTodo}>Add</button>
       </div>
-      <div className="divSort">
-        <select className="selectSort"
+      <div
+        className={style.divSort}>
+        <select
+          className={style.selectSort}
           onChange={(e) => { sortTodoAction(e.target.value) }}>
           <option value="default">sort by</option>
           <option value="date">date</option>
@@ -78,4 +88,5 @@ export default connect(
   mapStateToProps, {
   addTodoAction,
   sortTodoAction
-})(TodoInput);
+}
+)(TodoInput);
