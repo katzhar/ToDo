@@ -43,7 +43,8 @@ const TodoInput = ({ addTodoAction, sortTodoAction }) => {
   return (
     <div>
       <Link to="/login" onClick={clearLocalStorage}>Log out</Link>
-      <div className={style.navbarCont}>
+      <div
+        className={style.navbarCont}>
         <input
           className={style.addTodo}
           type="text"

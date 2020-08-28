@@ -29,7 +29,7 @@ const Login = () => {
     }
 
     return (
-        <div className="loginForm">
+        <div className={style.loginForm}>
             <form action='/login' method='post'>
                 <input
                     className={style.inputLogin}

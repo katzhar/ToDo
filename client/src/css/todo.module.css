@@ -2,7 +2,7 @@
     background-color: #f5f5f5;
   }
   
-  header {
+  .header {
     width: 1139px;
     height: 314px;
     opacity: 0.2;
@@ -28,6 +28,7 @@
   table {
     width: 100%;
   }
+  
   .addTodo {
     margin: 0;
     border: none;

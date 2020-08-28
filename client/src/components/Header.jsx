@@ -3,7 +3,9 @@ import style from '../css/todo.module.css';
 
 const Header = () => {
     return (
-        <header>Planner</header>
+        <header className={style.header}>
+            Planner
+        </header>
     )
 }
 

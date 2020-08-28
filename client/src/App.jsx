@@ -6,11 +6,12 @@ import TodoList from './components/Todo/TodoList';
 import Header from './components/Header';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import style from './css/todo.module.css';
 
 const App = () => {
   return (
     <Provider store={store}>
-      <div className="App">
+      <div className={style.App}>
         <Header />
         <Route exact path='/' component={Login} />
         <Route exact path='/login' component={Login} />

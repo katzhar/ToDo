@@ -18,7 +18,7 @@ const TodoList = ({ getAllTodo, ...props }) => {
 
   useEffect(() => {
     getAllTodo();
-  }, [])
+  })
 
   const deleteTodo = (todoId) => {
     props.deleteTodoAction(todoId);
@@ -72,9 +72,14 @@ const TodoList = ({ getAllTodo, ...props }) => {
                           onClick={(e) => editTodo('completed', !item.completed, item.id)}
                         />
                       </td>
-                      <td className={style.tdType}>{item.type}</td>
+                      <td className={style.tdType}>
+                        {item.type}
+                      </td>
                       <td className={style.tdText}>
-                        <span className={style.editTodo}>{item.title}</span></td>
+                        <span
+                          className={style.editTodo}>{item.title}
+                        </span>
+                      </td>
                       <td className={style.tdData}>{item.date}</td>
                       <td className={style.tdIcons}>
                         <img
@@ -91,11 +96,13 @@ const TodoList = ({ getAllTodo, ...props }) => {
                     </tr>
                   </tbody>
                 </table>
-              </div> : <div className={todoDate(item.date, item.completed)} key={item.id}>
+              </div> : <div
+                className={todoDate(item.date, item.completed)} key={item.id}>
                 <table>
                   <tbody>
                     <tr>
-                      <td className={style.tdIconDone}>
+                      <td
+                        className={style.tdIconDone}>
                         <img
                           alt="completed"
                           src={!item.completed ? radioLogo : radioLogoSelect}
@@ -103,7 +110,8 @@ const TodoList = ({ getAllTodo, ...props }) => {
                         />
                       </td>
                       <td>
-                        <select className={style.tdTypeEditMode}
+                        <select
+                          className={style.tdTypeEditMode}
                           keyvalue={item.id}
                           onChange={(e) => editTodo('type', e.target.value, item.id)} >
                           <option value="personal">personal</option>
