@@ -1,24 +1,30 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
-  setTodoAction, toggleTodoComplete, todoEditMode, editTodoType, editTodoDate,
-  editTodoText, deleteTodoAction, getAllTodo
+  setTodoAction, toggleTodoComplete, todoEditMode, editTodoType,
+  editTodoDate, editTodoText, deleteTodoAction
 } from '../../redux/Todo/TodoActions';
+import { getAllTodoReq, todoEditReq, deleteTodoReq } from '../../utils/requests';
 import TodoInput from './TodoInput';
 import delLogo from '../../svg/delLogo.svg';
 import editLogo from '../../svg/editLogo.svg';
 import doneLogo from '../../svg/doneLogo.svg';
 import radioLogo from '../../svg/radioLogo.svg';
 import radioLogoSelect from '../../svg/radioLogoSelect.svg';
-import { todoEditReq, deleteTodoReq } from '../../utils/requests';
 import style from '../../css/todo.module.css';
 
-const TodoList = ({ getAllTodo, ...props }) => {
+const TodoList = (props) => {
   const { todos } = props;
 
   useEffect(() => {
-    getAllTodo();
-  })
+    getAllTodoReq()
+      .then(res => {
+        let data = res.data.tasks;
+        props.setTodoAction(data);
+      }).catch(error => {
+        console.log(error)
+      });
+  }, [])
 
   const deleteTodo = (todoId) => {
     props.deleteTodoAction(todoId);
@@ -27,15 +33,19 @@ const TodoList = ({ getAllTodo, ...props }) => {
 
   const editTodo = (param, value, todoId) => {
     let res;
-    if (param === 'title')
+    if (param === 'title') {
       res = props.editTodoText(todoId, param, value);
-    else if (param === 'date')
+      todoEditReq(todoId, res)
+    } else if (param === 'date') {
       res = props.editTodoDate(todoId, param, value);
-    else if (param === 'completed')
+      todoEditReq(todoId, res)
+    } else if (param === 'completed') {
       res = props.toggleTodoComplete(todoId, param, value);
-    else if (param === 'type')
+      todoEditReq(todoId, res)
+    } else if (param === 'type') {
       res = props.editTodoType(todoId, param, value);
-    todoEditReq(todoId, res)
+      todoEditReq(todoId, res)
+    }
   }
 
   const todoDate = (date, completed) => {
@@ -166,7 +176,6 @@ export default connect(
   editTodoType,
   editTodoDate,
   editTodoText,
-  deleteTodoAction,
-  getAllTodo
+  deleteTodoAction
 }
 )(TodoList);

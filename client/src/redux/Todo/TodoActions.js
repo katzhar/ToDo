@@ -1,5 +1,3 @@
-import { getAllTodoReq } from '../../utils/requests';
-
 export const setTodoAction = (data) => ({
   type: 'SET_TODO', data
 });
@@ -42,13 +40,3 @@ export const deleteTodoAction = (todoId) => ({
   type: 'DELETE_TODO',
   payload: todoId
 });
-
-export const getAllTodo = () => async (dispatch) => {
-  await getAllTodoReq()
-    .then(res => {
-      let data = res.data.tasks;
-      dispatch(setTodoAction(data));
-    }).catch(error => {
-      console.log(error)
-    });
-}

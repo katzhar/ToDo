@@ -6,7 +6,7 @@ import { sendDataReq, logoutReq } from '../../utils/requests';
 import { addTodoAction, sortTodoAction } from '../../redux/Todo/TodoActions';
 import style from '../../css/todo.module.css';
 
-const TodoInput = ({ addTodoAction, sortTodoAction }) => {
+const TodoInput = (props) => {
   const [itemTodo, setItemTodo] = useState({
     id: uuid(),
     title: '',
@@ -24,7 +24,7 @@ const TodoInput = ({ addTodoAction, sortTodoAction }) => {
     if (itemTodo.title !== '' && itemTodo.date !== '' && itemTodo.type !== '') {
       event.preventDefault();
       sendDataReq(itemTodo);
-      addTodoAction({
+      props.addTodoAction({
         id: uuid(),
         title: itemTodo.title,
         date: itemTodo.date,
@@ -37,11 +37,12 @@ const TodoInput = ({ addTodoAction, sortTodoAction }) => {
 
   const clearLocalStorage = () => {
     logoutReq();
-    localStorage.removeItem('token');
+    localStorage.removeItem('token')
   }
 
   return (
     <div>
+      {/* {auth && <Redirect to='/todolist' />} */}
       <Link to="/login" onClick={clearLocalStorage}>Log out</Link>
       <div
         className={style.navbarCont}>
