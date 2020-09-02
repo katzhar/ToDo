@@ -11,18 +11,17 @@ const Signup = () => {
         password: ''
     });
 
-    let sendData = (event) => {
+    const sendData = (event) => {
         event.preventDefault();
-        signupUserReq(user)
-            .then(res => {
-                if (res.data.success)
-                    history.push('/login')
-                else
-                    history.push('/signup')
-            }).catch(error => {
-                console.log(error)
-            }
-            );
+        signupUserReq(user).then(res => {
+            if (res.data.success)
+                history.push('/login')
+            else
+                history.push('/signup')
+        }).catch(error => {
+            console.log(error)
+        }
+        );
     }
 
     const onChangeValue = (param, value) => {

@@ -2,10 +2,11 @@
   "name": "redux-basic",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://damp-fjord-03984.herokuapp.com",
+  "proxy": "https://damp-fjord-03984.herokuapp.com/",
   "dependencies": {
     "axios": "^0.19.2",
     "babel-jest": "24.7.1",
+    "eslint-config-airbnb": "^18.2.0",
     "jwt-decode": "^2.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

@@ -12,17 +12,16 @@ const Login = () => {
 
     const sendData = (event) => {
         event.preventDefault();
-        loginUserReq(user)
-            .then(res => {
-                if (res.data.success) {
-                    localStorage.setItem('token', res.data.token);
-                    history.push('/todolist')
-                } else
-                    history.push('/login')
-            }).catch(error => {
-                console.log(error)
-            }
-            );
+        loginUserReq(user).then(res => {
+            if (res.data.success) {
+                localStorage.setItem('token', res.data.token);
+                history.push('/todolist')
+            } else
+                history.push('/login')
+        }).catch(error => {
+            console.log(error)
+        }
+        );
     }
 
     const onChangeValue = (param, value) => {
@@ -31,8 +30,7 @@ const Login = () => {
 
     return (
         <div className={style.loginForm}>
-            {/* {auth && <Redirect to='/todolist' />} */}
-            <form>
+            <form action='/login' method='post'>
                 <input
                     className={style.inputLogin}
                     name='username'

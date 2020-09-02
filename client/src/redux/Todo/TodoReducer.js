@@ -1,14 +1,10 @@
+
 const initialState = {
     todos: []
-};
+  };
 
 function TodoReducer(state = initialState, action) {
     switch (action.type) {
-        // case 'IS_USER_AUTH':
-        //     return {
-        //         ...state,
-        //         isAuth: action.data
-        //     };
         case 'ADD_TODO':
             return {
                 ...state,
